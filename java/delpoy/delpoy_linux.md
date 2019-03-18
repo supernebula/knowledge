@@ -46,6 +46,7 @@ https://www.filezilla.cn/download
 
 ![filezilla client](img/filezilla_client.png)
 
+![filezilla client](img/filezilla_client_screenshot.png)
 
 ## Maven命令打包
 
