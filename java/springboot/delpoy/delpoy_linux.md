@@ -61,4 +61,37 @@ mvn 选项说明：
     -Dmaven.test.skip=true，不执行测试用例，也不编译测试用例类。
 
 
+### 部署到linux
+
+切换到 /home目录，并创建站点文件夹website
+
+```shell
+# mkdir website
+# cd website/
+```
+
+使用FileZilla上床jar包到website 目录，使用java -jar xxxx.jar运行站点。
+
+```shell
+# cd website/
+# ls
+sample-website-0.0.1-SNAPSHOT.jar
+# java -jar sample-website-0.0.1-SNAPSHOT.jar 
+
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::       (v1.5.19.RELEASE)
+ 2019-03-18 22:57:04.130  INFO 6130 --- [           main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2019-03-18 22:57:04.163  INFO 6130 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
+2019-03-18 22:57:04.167  INFO 6130 --- [           main] c.evol.sample.SampleWebsiteApplication   : Started SampleWebsiteApplication in 4.964 seconds (JVM running for 5.532)
+
+```
+
+
+
 
