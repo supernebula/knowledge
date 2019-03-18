@@ -89,9 +89,71 @@ sample-website-0.0.1-SNAPSHOT.jar
  2019-03-18 22:57:04.130  INFO 6130 --- [           main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
 2019-03-18 22:57:04.163  INFO 6130 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
 2019-03-18 22:57:04.167  INFO 6130 --- [           main] c.evol.sample.SampleWebsiteApplication   : Started SampleWebsiteApplication in 4.964 seconds (JVM running for 5.532)
-
 ```
 
+访问
+
+```shell
+# curl localhost:8080
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Essingle | Log in</title>
+</head>
+<body>
+<div>
+    <p>1</p>
+    <p>zhangsan</p>
+    <p>zhangsan@qq.com</p>
+</div>
+</body>
+</html>
+```
+
+或使用IP从外部访问，前提防火墙增加端口 或 关闭防火墙
+
+```shell
+# curl http://10.211.55.5:8080
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Essingle | Log in</title>
+</head>
+<body>
+<div>
+    <p>1</p>
+    <p>zhangsan</p>
+    <p>zhangsan@qq.com</p>
+</div>
+</body>
+</html>
+```
+
+### centos防火墙
+
+CentOS 7.0默认使用的是firewall作为防火墙
+
+1.查看防火墙状态
+
+```shell
+# firewall-cmd --state
+```
+2.停止firewall
+
+```shell
+systemctl stop firewalld.service
+```
+3.禁止firewall开机启动
+
+```shell
+# systemctl disable firewalld.service
+```
+ 
 
 
 
