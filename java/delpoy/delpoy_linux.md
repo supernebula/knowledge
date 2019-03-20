@@ -269,6 +269,7 @@ hello-world     latest          fce289e99eb9    2 months ago    1.84kB
 ```shell
 # docker run --name samplesite1 -d samplewebsite:v0.01 -p 8888:8080
 ```
+
 查看容器
 
 ```shell
@@ -276,6 +277,26 @@ hello-world     latest          fce289e99eb9    2 months ago    1.84kB
 CONTAINER ID    IMAGE                 COMMAND                  CREATED             STATUS          PORTS               NAMES
 53727cb9b7aa    samplewebsite:v0.01   "java -Djava.securit…"   7 seconds ago       Up 6 seconds                        samplesite1
 ```
+参考
+
+查看容器日志
+```shell
+docker logs [options] 容器id
+```
+
+#### Issue
+
+(1). 没有端口号
+```shell
+# docker ps -a
+CONTAINER ID        IMAGE                 COMMAND                  CREATED             STATUS              PORTS               NAMES
+29245e793222        samplewebsite:v0.01   "java -Djava.securit…"   7 seconds ago       Up 6 seconds                            samplesite1
+```
+解决参考：
+http://www.mamicode.com/info-detail-2301175.html
+
+
+
 
 参考：
 
