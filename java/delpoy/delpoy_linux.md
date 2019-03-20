@@ -232,6 +232,120 @@ Centos 7 如何卸载docker
 
 https://blog.csdn.net/liujingqiu/article/details/74783780
 
+## 使用 Docker 部署 Spring Boot
+
+### 上传服务器，再创建docker镜像
+
+1. 本地maven打包成jar
+```shell
+mvn clean package -Dmaven.test.skip=true
+```
+2. 上传jar 和 Dockerfile 到linux服务器同一目录
+
+```shell
+# pwd
+/home/website
+# ls
+Dockerfile  sample-website-0.0.1-SNAPSHOT.jar
+```
+
+3. 构建docker镜像
+
+```shell
+# docker build -t samplewebsite:v0.01 .
+....
+Successfully tagged samplewebsite:v0.01
+```
+查看镜像
+```shell
+# docker image ls
+REPOSITORY      TAG             IMAGE ID        CREATED         SIZE
+samplewebsite   v0.01           9214aff225b5    6 minutes ago   132MB
+openjdk         8-jdk-alpine    e9ea51023687    12 days ago     105MB
+hello-world     latest          fce289e99eb9    2 months ago    1.84kB
+```
+4. 构建docker容器
+
+```shell
+# docker run --name samplesite1 -d samplewebsite:v0.01 -p 8888:8080
+```
+查看容器
+
+```shell
+# docker ps
+CONTAINER ID    IMAGE                 COMMAND                  CREATED             STATUS          PORTS               NAMES
+53727cb9b7aa    samplewebsite:v0.01   "java -Djava.securit…"   7 seconds ago       Up 6 seconds                        samplesite1
+```
+
+参考：
+
+https://www.cnblogs.com/yi1036943655/p/9879464.html
+
+### 开发机构建docker镜像，并上传到服务器
+
+参考：
+
+1. Spring Boot with Docker
+
+    https://spring.io/guides/gs/spring-boot-docker/
+
+2. 使用 Docker 部署 Spring Boot
+
+    http://www.ityouknow.com/springboot/2018/03/19/spring-boot-docker.html
+
+## 本地打包到docker
+
+```shell
+# mvn package docker:build
+```
+
+报错1:
+
+```shell
+[ERROR] No plugin found for prefix 'docker' in the current project and in the plugin groups [org.apache.maven.plugins, org.codehaus.mojo] available from the repositories [local (/Users/evol/.m2/repository), central (https://repo.maven.apache.org/maven2)] 
+```
+
+解决1：
+
+在 .m2文件夹下，创建settings.xml, 内容如下：
+```xml
+    <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                          https://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <pluginGroups>
+        <pluginGroup>com.spotify</pluginGroup>
+    </pluginGroups>
+</settings>
+```
+
+参考: 
+https://github.com/spotify/docker-maven-plugin/issues/322
+
+再次执行 
+```shell
+# mvn package docker:build
+```
+
+报错2：
+```shell
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  02:58 min
+[INFO] Finished at: 2019-03-20T16:06:21+08:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal com.spotify:docker-maven-plugin:1.2.0:build (default-cli) on project sample-domain: Exception caught: Must specify baseImage if dockerDirectory is null -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+[ERROR] 
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <goals> -rf :sample-domain
+```
+
 
 ## Centos 7
 
@@ -249,6 +363,10 @@ https://blog.csdn.net/liujingqiu/article/details/74783780
 DNBOOT=yes
 ```
 
+
+
+
+##
 
 
 
