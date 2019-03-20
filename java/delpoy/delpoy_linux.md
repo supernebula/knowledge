@@ -135,6 +135,9 @@ sample-website-0.0.1-SNAPSHOT.jar
 </html>
 ```
 
+
+### 部署到docker
+
 ### centos防火墙
 
 CentOS 7.0默认使用的是firewall作为防火墙
@@ -147,13 +150,111 @@ CentOS 7.0默认使用的是firewall作为防火墙
 2.停止firewall
 
 ```shell
-systemctl stop firewalld.service
+# systemctl stop firewalld.service
 ```
 3.禁止firewall开机启动
 
 ```shell
 # systemctl disable firewalld.service
 ```
+
+## Docker
+
+### Guides  for Centos7+
+
+#### 1. GET
+
+Get Docker CE for Ubuntu  
+https://docs.docker.com/install/linux/docker-ce/ubuntu/
+
+Get Docker CE for CentOS    
+https://docs.docker.com/install/linux/docker-ce/centos/
+
+To install Docker CE, you need a maintained version of CentOS 7.
+
+#### 2. Uninstall old versions
+
+```shell
+$ sudo yum remove docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine
+```
+
+#### 3. Install using the repository
+
+1. SET UP THE REPOSITORY
+
+```shell
+$ sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+```
+
+2. 
+
+```shell
+$ sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+```
+
+#### 4. INSTALL DOCKER CE
+
+安装最新版
+```shell
+$ sudo yum install docker-ce docker-ce-cli containerd.io
+```
+列出所有docker有效版本
+
+```shell
+$ yum list docker-ce --showduplicates | sort -r
+```
+
+安装指定版本
+```shell
+$ sudo yum install docker-ce-<VERSION_STRING> docker-ce-cli-<VERSION_STRING> containerd.io
+```
+
+
+启动Docker
+```shell
+$ sudo systemctl start docker
+```
+
+验证docker安装，运行 'hellp-world' 镜像
+```shell
+$ sudo docker run hello-world
+```
+
+
+
+
+
+## Docker Issue
+
+按照官方指南安装daocker，运行hello-world是报错，按照以下文章操作，并重启centos后，报错，运行成功；
+
+Centos 7 如何卸载docker
+
+https://blog.csdn.net/liujingqiu/article/details/74783780
+
+
+## Centos 7
+
+设置开机自动联网
+
+修改ifcg-xxx文件，xxx代表centos有线网络的名称,替换这个xxx
+（注：不是“ifcg-io”文件）
+
+```shell
+# vim /etc/sysconfig/network-scripts/ifcg-xxx
+```
+修改DNBOOT
+
+```shell
+DNBOOT=yes
+```
+
+
+
+
+
+
+
  
 
 
