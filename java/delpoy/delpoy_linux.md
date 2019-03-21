@@ -252,9 +252,22 @@ Dockerfile  sample-website-0.0.1-SNAPSHOT.jar
 3. 构建docker镜像
 
 ```shell
-# docker build -t samplewebsite:v0.01 .
-....
-Successfully tagged samplewebsite:v0.01
+# docker build -t samplesite:0.01 .
+Sending build context to Docker daemon  26.82MB
+Step 1/4 : FROM openjdk:8-jdk-alpine
+ ---> e9ea51023687
+Step 2/4 : VOLUME /tmp
+ ---> Running in 3d471b970e98
+Removing intermediate container 3d471b970e98
+ ---> 4086a495875e
+Step 3/4 : COPY sample-website-0.0.1-SNAPSHOT.jar app.jar
+ ---> f22feafa6c58
+Step 4/4 : ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+ ---> Running in 0b616dffe734
+Removing intermediate container 0b616dffe734
+ ---> cbb2f9423914
+Successfully built cbb2f9423914
+Successfully tagged samplesite:0.01
 ```
 查看镜像
 ```shell
@@ -266,17 +279,47 @@ hello-world     latest          fce289e99eb9    2 months ago    1.84kB
 ```
 4. 构建docker容器
 
+命令格式
+
+    docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+
 ```shell
-# docker run --name samplesite1 -d samplewebsite:v0.01 -p 8888:8080
+# docker run -d -p 8080:8080 samplesite:0.01
+# docker run -d -p 8080:8080 --name samplesite1  samplesite:0.01
+
+
 ```
 
 查看容器
 
 ```shell
-# docker ps
-CONTAINER ID    IMAGE                 COMMAND                  CREATED             STATUS          PORTS               NAMES
-53727cb9b7aa    samplewebsite:v0.01   "java -Djava.securit…"   7 seconds ago       Up 6 seconds                        samplesite1
+# docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+8634a0b613ef        samplesite:0.01     "java -Djava.securit…"   3 seconds ago       Up 2 seconds        0.0.0.0:8080->8080/tcp   samplesite1
 ```
+
+访问容器服务(此处为web站点)
+```shell
+# curl http://localhost:8080/
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Essingle | Log in</title>
+</head>
+<body>
+<div>
+    <p>1</p>
+    <p>zhangsan</p>
+    <p>zhangsan@qq.com</p>
+</div>
+</body>
+</html>
+```
+
+
 参考
 
 查看容器日志
@@ -292,11 +335,11 @@ docker logs [options] 容器id
 CONTAINER ID        IMAGE                 COMMAND                  CREATED             STATUS              PORTS               NAMES
 29245e793222        samplewebsite:v0.01   "java -Djava.securit…"   7 seconds ago       Up 6 seconds                            samplesite1
 ```
-解决参考：
-http://www.mamicode.com/info-detail-2301175.html
+问题原因：
 
+运行docker run 命令时格式错误，正确的命令格式 
 
-
+    docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
 
 参考：
 
