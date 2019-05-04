@@ -16,7 +16,7 @@
 ```shell
 # systemctl set-default multi-user.target
 或者
-#systemctl set-default runlevel3.target
+# systemctl set-default runlevel3.target
 ```
 
 (3). 需要重启
