@@ -4122,6 +4122,13 @@ public class HelloServiceAutoConfiguration {
 
 
 
+# **二、**SpringBoot 2 要不要升级
+
+https://www.cnblogs.com/littleatp/p/10498344.html
+
+
+
+
 
 
 
