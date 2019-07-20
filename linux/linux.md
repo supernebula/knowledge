@@ -1,6 +1,8 @@
 # Linux
 
-## 1. Ubuntu 18.04 / Centos7 修改默认启动级别(图形模式、命令模式)
+## 一、基本配置
+
+### 1. Ubuntu 18.04 / Centos7 修改默认启动级别(图形模式、命令模式)
 
 
 Linux分为7个启动级别：
@@ -52,3 +54,46 @@ Ctrl+Alt+F5  文本模式
 
 Ctrl+Alt+F1  图形模式
 
+
+# 二、网络配置
+
+1. Ubuntu 18配置静态IP
+
+    ubuntu server 18.04版本netplan网络配置
+
+参考：
+
+https://ywnz.com/linuxjc/1491.html
+
+命令：
+
+```shell
+# cd /etc/netplan
+# ls
+50-cloud-init.yaml
+# vim 50-cloud-init.yaml
+```
+修改50-cloud-init.yaml内容如下：
+
+```yaml
+# This file is generated from information provided by
+# the datasource.  Changes to it will not persist across an instance.
+# To disable cloud-init's network configuration capabilities, write a file
+# /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with the following:
+# network: {config: disabled}
+network:
+    ethernets:
+        eth0:
+            dhcp4: false
+            addresses: [192.168.0.206/24]   #24 对应的子网掩码netmask是 255.255.255.0
+            gateway4: 192.168.0.1
+            nameservers:
+                    addresses: [192.168.0.1]
+    version: 2
+~                       
+```
+
+应用生效新的网络配置
+```shell
+# netplan apply
+```
