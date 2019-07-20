@@ -4,6 +4,10 @@
 
 ### RDS FOR MYSQL 各版本利用物理备份进行本地恢复的方法
 
+参考地址：
+
+https://yq.aliyun.com/articles/689024?spm=a2c4e.11155435.0.0.2bb03312aKHxcM
+
 
 下面文档讲述RDS FOR MYSQL 各版本利用物理备份进行本地恢复的方法：
 
