@@ -1,8 +1,18 @@
 # redis 安装配置
 
-## 单机redis (Mac)
+## 参考
 
-### 安装
+[深入剖析Redis系列(一) - Redis入门简介与主从搭建](https://juejin.im/post/5b76e732f265da4376203849)
+
+[Redis的三种模式：主从、哨兵、集群](http://www.pianshen.com/article/1023276171/)
+
+[深入剖析Redis系列](https://juejin.im/post/5b76e732f265da4376203849)
+
+[Redis5.0.5主从复制配置](https://blog.csdn.net/zhou16333/article/details/99258776)
+
+
+
+## Redis单机安装（Mac）
 
 1. 下载redis 5.0
 
@@ -38,7 +48,7 @@ $ cd /usr/local/redis-5.0.5
 $ ./src/redis-server
 ```
 
-### 配置
+### 单机配置
 
 在redis目录下建立bin，etc，db三个目录
 
@@ -114,5 +124,108 @@ cd /usr/local/redis-5.0.5
 ./bin/redis-server ./etc/redis.conf
 ```
 
+## Redis常用命令
+
+1. 启动命令
+
+$ redis-server /usr/local/redis.conf
+
+2.  关闭命令
+
+$ redis-cli -h 127.0.0.1 -p 6379 shutdown
+
+3. 查看是否启动
+
+$ ps -ef | grep redis
+
+4. 进入客户端
+
+$ redis-cli
+
+5. 关闭客户端
+
+$ redis-cli shutdown
+
 ## Redis集群
+
+
+用到的命令
+
+复制整个目录: cp -r /源目录/ /目的目录/
+
+建立主从redis总目录
+
+```shell
+$ cd /usr/local/
+$ mkdir redis-m-slave
+```
+分别复制单机redis到主节点、从节点
+
+```shell
+$ cp -r redis-5.0.5/ redis-m-slave/redis-master/
+$ cp -r redis-5.0.5/ redis-m-slave/redis-slave/
+```
+
+建个空文件，仅供说明当前redis版本
+
+```shell
+$ touch redis-5.0.5.version
+```
+
+修改主节点配置文件
+
+```shell
+cd redis-m-slave/redis-master/
+vim etc/redis.conf
+```
+
+修改端口
+port 16379
+
+
+修改从节点配置文件
+
+```shell
+cd redis-m-slave/redis-slave/
+vim etc/redis.conf
+```
+修改端口
+port 26379
+
+追加内容，命令格式： slaveof [主节点IP] [主节点端口]
+slaveof 127.0.0.1 16379
+
+启动主、从节点
+```shell
+cd /usr/local/redis-m-slave/redis-master
+./bin/redis-server ./etc/redis.conf
+tail -f log-redis.log
+```
+
+```shell
+cd /usr/local/redis-m-slave/redis-slave
+./bin/redis-server ./etc/redis.conf
+tail -f log-redis.log
+```
+
+配置完成
+
+正常情况：
+1.仅启动主节点，主节点可以连接
+1.仅启动从节点，从节点可以连接
+
+问题：
+主从节点都启动时， 从节点可连接，主节点无法连接，提示授权失败
+
+
+
+
+
+
+
+
+
+
+
+
 
