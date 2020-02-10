@@ -175,8 +175,8 @@ $ touch redis-5.0.5.version
 修改主节点配置文件
 
 ```shell
-cd redis-m-slave/redis-master/
-vim etc/redis.conf
+$ cd redis-m-slave/redis-master/
+$ vim etc/redis.conf
 ```
 
 修改端口
@@ -186,8 +186,8 @@ port 16379
 修改从节点配置文件
 
 ```shell
-cd redis-m-slave/redis-slave/
-vim etc/redis.conf
+$ cd redis-m-slave/redis-slave/
+$ vim etc/redis.conf
 ```
 修改端口
 port 26379
@@ -197,15 +197,15 @@ slaveof 127.0.0.1 16379
 
 启动主、从节点
 ```shell
-cd /usr/local/redis-m-slave/redis-master
-./bin/redis-server ./etc/redis.conf
-tail -f log-redis.log
+$ cd /usr/local/redis-m-slave/redis-master
+$ ./bin/redis-server ./etc/redis.conf
+$ tail -f log-redis.log
 ```
 
 ```shell
-cd /usr/local/redis-m-slave/redis-slave
-./bin/redis-server ./etc/redis.conf
-tail -f log-redis.log
+$ cd /usr/local/redis-m-slave/redis-slave
+$ ./bin/redis-server ./etc/redis.conf
+$ tail -f log-redis.log
 ```
 
 配置完成
