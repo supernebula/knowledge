@@ -295,3 +295,66 @@ yum install libaio*。自动安装这两个包
  Can't connect to local MySQL server through socket '/tmp/mysql.sock'
  原因：
  /usr/local/mysql/my.cnf中的socket写错为mysqld.sock, 多了一个d字母，应该为mysql.sock
+
+
+ ## 使用mysql source还原数据
+
+ ### . 问题：source 执行sql慢
+
+ 解决方案：
+ 修改：innodb_flush_log_at_trx_commit
+
+ 查看当前配置：
+ ```shell
+mysql>  show global variables where variable_name = 'innodb_flush_log_at_trx_commit';
++--------------------------------+-------+
+| Variable_name                  | Value |
++--------------------------------+-------+
+| innodb_flush_log_at_trx_commit | 1     |
++--------------------------------+-------+
+1 row in set (0.00 sec)
+
+ ```
+
+参数修改：
+ ```shell
+SET GLOBAL innodb_flush_log_at_trx_commit = 2;
+ ```
+
+ 修改完成后在次执行相同的文件，200M大约200w+条的数据在1分钟左右。
+
+ 对于该参数的不同值的说明:
+
+```
+    1.innodb_flush_log_at_trx_commit参数为 0
+        binlog_group_flush && thd_flush_log_at_trx_commit(NULL) == 0 条件成立，因此直接return了，那么这种情况下log_buffer_flush_to_disk函数不会调用，因此不会做redo刷盘。依赖master线程。
+    2.innodb_flush_log_at_trx_commit参数为 1
+        !binlog_group_flush|| thd_flush_log_at_trx_commit(NULL) == 1 返回为1即为True，因此调用log_buffer_flush_to_disk(True)，因此需要做redo刷盘，也要做sync。
+    3.innodb_flush_log_at_trx_commit参数为 2
+        !binlog_group_flush|| thd_flush_log_at_trx_commit(NULL) == 1 返回为0即为Flase，因此调用log_buffer_flush_to_disk(Flase)，因此需要做redo刷盘，不做sync。依赖OS的刷盘机制。
+```
+
+有关mysql的innodb_flush_log_at_trx_commit参数
+
+
+(1)、参数解释
+
+0：log buffer将每秒一次地写入log file中，并且log file的flush(刷到磁盘)操作同时进行。该模式下在事务提交的时候，不会主动触发写入磁盘的操作。
+
+1：每次事务提交时MySQL都会把log buffer的数据写入log file，并且flush(刷到磁盘)中去，该模式为系统默认。
+
+2：每次事务提交时MySQL都会把log buffer的数据写入log file，但是flush(刷到磁盘)操作并不会同时进行。该模式下，MySQL会每秒执行一次 flush(刷到磁盘)操作。注意：
+  由于进程调度策略问题,这个“每秒执行一次 flush(刷到磁盘)操作”并不是保证100%的“每秒”。
+
+(2)、注意事项
+当设置为0，该模式速度最快，但不太安全，mysqld进程的崩溃会导致上一秒钟所有事务数据的丢失。
+
+当设置为1，该模式是最安全的，但也是最慢的一种方式。在mysqld 服务崩溃或者服务器主机crash的情况下，binary log 只有可能丢失最多一个语句或者一个事务。。
+当设置为2，该模式速度较快，也比0安全，只有在操作系统崩溃或者系统断电的情况下，上一秒钟所有事务数据才可能丢失。
+(3)、其他相关
+查找资料时候看到其他文章说innodb_flush_log_at_trx_commit和sync_binlog 两个参数是控制MySQL 磁盘写入策略以及数据安全性的关键参数，当两个参数都设置为1的时候写入性能最差，推荐做法是innodb_flush_log_at_trx_commit=2，sync_binlog=500 或1000
+
+http://blog.itpub.net/22664653/viewspace-1063134/
+
+ 参考：
+ https://blog.csdn.net/codepen/article/details/52160715
