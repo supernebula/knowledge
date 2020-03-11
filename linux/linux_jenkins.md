@@ -1,3 +1,7 @@
+参考地址：
+
+https://www.jianshu.com/p/400b4516b98e
+
 
 安装java
 
@@ -48,3 +52,46 @@ Java(TM) SE Runtime Environment (build 1.8.0_241-b07)
 Java HotSpot(TM) 64-Bit Server VM (build 25.241-b07, mixed mode)
 
 ```
+
+
+安装 jenkins
+
+https://pkg.jenkins.io/redhat-stable/
+
+```shell
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+```
+
+```shell
+yum install jenkins
+```
+
+启动Jenkins
+
+```shell
+service jenkins start
+```
+停止
+```shell
+service jenkins stop
+```
+重启
+```shell
+service jenkins restart
+```
+查看状态
+```shell
+service jenkins status
+```
+
+
+
+
+临时关闭防火墙，允许8080端口访问
+
+查看jenkins 初始密码
+```shell
+cat /var/lib/jenkins/secrets/initialAdminPassword
+```
+
