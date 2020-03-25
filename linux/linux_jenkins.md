@@ -95,6 +95,14 @@ service jenkins status
 cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
 
+修改Jenkins端口号
+
+编辑文件/etc/sysconfig/jenkins
+```shell
+# vim /etc/sysconfig/jenkins
+
+JENKINS_PORT="8000"
+```
 
 
 
@@ -139,4 +147,21 @@ Maven Integration plugin(maven 打包插件)
 Publish Over SSH(远程访问的SSH插件)
 
 https://www.jianshu.com/p/79f4001809f5
-https://www.jianshu.com/p/79f4001809f5
+
+
+创建MAVEN项目，构建，自动部署到 /home/admin
+
+admin登录，给.sh文件增加执行权限
+```shell
+chmod u+x start.sh
+chmod u+x stop.sh
+chmod u+x restart.sh
+```
+
+```shell
+$ ./start.sh
+
+```
+
+u代表所有者，x代表执行权限。 + 表示增加权限。
+chmod u+x file.sh 就表示对当前目录下的file.sh文件的所有者增加可执行权限
