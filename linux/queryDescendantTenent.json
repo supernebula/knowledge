@@ -1,0 +1,172 @@
+{
+    "code": 0,
+    "msg": "成功",
+    "errorMsg": null,
+    "jpush": null,
+    "data": [
+        {
+            "id": 6,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "张华丽"
+        },
+        {
+            "id": 7,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "东城大厦"
+        },
+        {
+            "id": 8,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "长乐南苑"
+        },
+        {
+            "id": 9,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "华海园"
+        },
+        {
+            "id": 10,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "浙江宝诚汽车"
+        },
+        {
+            "id": 11,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "白荡海"
+        },
+        {
+            "id": 12,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "青年公寓"
+        },
+        {
+            "id": 13,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "花中城"
+        },
+        {
+            "id": 14,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "普金家园"
+        },
+        {
+            "id": 15,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "锦绣文澜阁"
+        },
+        {
+            "id": 16,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "大关西苑第二社区"
+        },
+        {
+            "id": 17,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "银润星座"
+        },
+        {
+            "id": 18,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "金玺钰府"
+        },
+        {
+            "id": 19,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "和睦新村"
+        },
+        {
+            "id": 20,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "远景汽车1"
+        },
+        {
+            "id": 21,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "德胜农贸市场"
+        },
+        {
+            "id": 22,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "锦绣嘉苑"
+        },
+        {
+            "id": 23,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "大浒东"
+        },
+        {
+            "id": 24,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "长乐北苑"
+        },
+        {
+            "id": 25,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "运河上街"
+        },
+        {
+            "id": 26,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "仓基新村"
+        },
+        {
+            "id": 27,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "西二社区"
+        },
+        {
+            "id": 28,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "黄龙体育中心"
+        },
+        {
+            "id": 29,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "信义坊车棚"
+        },
+        {
+            "id": 30,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "远洋金座"
+        },
+        {
+            "id": 31,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "德胜学校"
+        },
+        {
+            "id": 32,
+            "parentId": 5,
+            "children": [],
+            "tenantName": "天阳棕榈湾"
+        }
+    ],
+    "success": true,
+    "errormsg": "成功"
+}

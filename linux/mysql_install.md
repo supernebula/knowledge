@@ -70,6 +70,19 @@ drwxr-xr-x  2 mysql mysql   4096 Feb 21 13:15 support-files
 ```shell
 # cd /usr/local/mysql
 # ./bin/mysqld --initialize --user=mysql --basedir=/usr/local/mysql/ --datadir=/opt/mysql/data/
+
+或者
+
+# ./bin/mysqld --initialize --user=mysql --basedir=/usr/local/mysql/ --datadir=/usr/local/mysql/data/
+
+2020-04-03T08:34:13.163447Z 0 [Warning] TIMESTAMP with implicit DEFAULT value is deprecated. Please use --explicit_defaults_for_timestamp server option (see documentation for more details).
+2020-04-03T08:34:13.398129Z 0 [Warning] InnoDB: New log files created, LSN=45790
+2020-04-03T08:34:13.439356Z 0 [Warning] InnoDB: Creating foreign key constraint system tables.
+2020-04-03T08:34:13.497497Z 0 [Warning] No existing UUID has been found, so we assume that this is the first time that this server has been started. Generating a new UUID: e5d098b5-7585-11ea-a8d6-000c29a0b0e7.
+2020-04-03T08:34:13.498757Z 0 [Warning] Gtid table is not ready to be used. Table 'mysql.gtid_executed' cannot be opened.
+2020-04-03T08:34:14.571431Z 0 [Warning] CA certificate ca.pem is self signed.
+2020-04-03T08:34:14.735038Z 1 [Note] A temporary password is generated for root@localhost: ah4Qjzbi,#MO
+
 ```
 执行输出
 ```shell
@@ -272,6 +285,11 @@ chown -R mysql:mysql  /var/log/mariadb/
 http://www.voidcn.com/article/p-tfryonyl-mr.html
 
 
+chmod -R 777 /var/run/mysqld/
+
+chown -R root:root  /var/run/mysqld/
+
+
 二：出错原因
 
 mysql 5.7不支持mysql_install_db，应该使用mysqld --initialize 完成实例初始化。
@@ -291,10 +309,24 @@ yum install libaio*。自动安装这两个包
 
 ## 连接mysql
 
-遇到的问题
+遇到的问题1.
  Can't connect to local MySQL server through socket '/tmp/mysql.sock'
  原因：
  /usr/local/mysql/my.cnf中的socket写错为mysqld.sock, 多了一个d字母，应该为mysql.sock
+
+遇到的问题2.
+原因发现/var/run/下没有mysql目录：创建mysql目录，并赋予mysql用户权限
+
+```shell
+# service mysqld start
+ Starting MySQL. ERROR! The server quit without updating PID file (/var/run/mysql/mysql.pid).
+# cd /var/run/
+# mkdir mysql
+# chown -R mysql:mysql /var/run/mysql/
+# service mysqld start
+Starting MySQL. SUCCESS! 
+ ```
+
 
 
  ## 使用mysql source还原数据
@@ -358,3 +390,47 @@ http://blog.itpub.net/22664653/viewspace-1063134/
 
  参考：
  https://blog.csdn.net/codepen/article/details/52160715
+
+
+## MySQL5.7免密重置root密码 和 重置密码
+
+https://blog.csdn.net/fengxinlinux/article/details/75570826
+
+
+## Unknown trigger has an error in its body: 'Unknown system variable 'maintain_user_list''
+
+1.查看并修改RDS超级账号密码
+
+1 select host,user from mysql.user;
+2 update mysql.user set authentication_string=password('新密码') where user='aliyun_root';
+报错如下：Unknown system variable 'maintain_user_list'
+
+表示有触发器.
+
+注意: 在mysql5.7 中, aliyun_root 才是真正超级权限账号
+
+查看并删除触发器.命令如下:
+
+ 
+
+select trigger_schema,trigger_name from information_schema.triggers;
+
+drop trigger sys.sys_config_insert_set_user;
+drop trigger sys.sys_config_update_set_user;
+
+
+1. 启动问题
+服务器经过一次重启，然后再次使用以下命令开启Mysql，出现错误。
+
+> service mysql start
+Starting MySQL.. ERROR! The server quit without updating PID file (/var/run/mariadb/mariadb.pid).
+2. Mysql错误日志
+查看Mysql错误日志文件
+
+
+> cat /var/log/mariadb/mariadb.log
+
+
+# tar 解压排除
+
+tar -izxvf hins8170601_data_20200423041705.tar.gz -C /opt/mysql/data --exclude=dbname1
