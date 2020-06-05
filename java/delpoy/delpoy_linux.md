@@ -62,6 +62,9 @@ mvn 选项说明：
     -Dmaven.test.skip=true，不执行测试用例，也不编译测试用例类。
 
 
+    mvn clean install -e -U
+
+
 ### 部署到linux
 
 切换到 /home目录，并创建站点文件夹website
