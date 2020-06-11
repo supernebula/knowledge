@@ -87,7 +87,7 @@ cd  /usr/local/nginx
 cd sbin
 ./nginx  #启动ginx
 
-打开浏览器：输入http://localhsot
+打开浏览器：输入http://localhost
 
 如果显示  welcome to  nginx
 
@@ -97,6 +97,16 @@ cd sbin
  centos7 配置 nginx 自启动
 
  https://www.jianshu.com/p/ca5ee5f7075c
+
+
+ nginx永久加入到系统环境变量
+
+ 在/etc/profile 中加入：
+export NGINX_HOME=/usr/local/nginx
+export PATH=$PATH:$NGINX_HOME/sbin
+保存，
+执行 source /etc/profile ，使配置文件生效。
+学习必须如蜜蜂一样，采过许多花，这才能酿出蜜来。
 
 
 
