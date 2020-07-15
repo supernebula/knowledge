@@ -110,3 +110,7 @@ export PATH=$PATH:$NGINX_HOME/sbin
 
 
 
+the "ssl" parameter requires ngx_http_ssl_module
+
+
+
