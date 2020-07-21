@@ -2,18 +2,140 @@
 
 https://www.influxdata.com/get-influxdb/
 
-## 安装 （RedHat和CentOS）
+##  RPM方式 安装 （RedHat和CentOS）
 
 ```shell
 wget https://dl.influxdata.com/influxdb/releases/influxdb-1.8.0.x86_64.rpm
 sudo yum localinstall influxdb-1.8.0.x86_64.rpm
+
+Running transaction
+  Installing : influxdb-1.8.0-1.x86_64                                                                                                       1/1 
+warning: /etc/influxdb/influxdb.conf created as /etc/influxdb/influxdb.conf.rpmnew
+Created symlink from /etc/systemd/system/influxd.service to /usr/lib/systemd/system/influxdb.service.
+Created symlink from /etc/systemd/system/multi-user.target.wants/influxdb.service to /usr/lib/systemd/system/influxdb.service.
+  Verifying  : influxdb-1.8.0-1.x86_64     
+
 ```
+
+
+
+## tar.gz 压缩包方式安装
+
+Linux Binaries (64-bit)
+
+### 下载解压
+
+```
+cd /usr/local/
+wget https://dl.influxdata.com/influxdb/releases/influxdb-1.8.1_linux_amd64.tar.gz
+tar xvfz influxdb-1.8.1_linux_amd64.tar.gz
+cd influxdb-1.8.1-1
+
+```
+
+### 自定义配置数据路径 启动
+
+```
+# cd /mnt 
+# mkdir influxdb
+
+# vim /usr/local/influxdb-1.8.1-1/etc/influxdb/influxdb.conf
+[meta]
+dir = "/mnt/influxdb/meta"
+
+[data]
+dir = "/mnt/influxdb/data"
+wal-dir = "/mnt/influxdb/wal"
+
+# cd /etc/
+# mkdir influxdb
+
+# cd /usr/local/influxdb-1.8.1-1/etc/influxdb/
+# cp influxdb.conf /etc/influxdb/influxdb.conf
+
+# cd /usr/local/influxdb-1.8.1-1/usr/bin
+# ./influxd
+
+8888888           .d888 888                   8888888b.  888888b.
+   888            d88P"  888                   888  "Y88b 888  "88b
+   888            888    888                   888    888 888  .88P
+   888   88888b.  888888 888 888  888 888  888 888    888 8888888K.
+   888   888 "88b 888    888 888  888  Y8bd8P' 888    888 888  "Y88b
+   888   888  888 888    888 888  888   X88K   888    888 888    888
+   888   888  888 888    888 Y88b 888 .d8""8b. 888  .d88P 888   d88P
+ 8888888 888  888 888    888  "Y88888 888  888 8888888P"  8888888P"
+
+2020-07-20T06:04:36.233449Z	info	InfluxDB starting	{"log_id": "0O6i1M2G000", "version": "1.8.1", "branch": "1.8", "commit": "af0237819ab9c5997c1c0144862dc762b9d8fc25"}
+2020-07-20T06:04:36.233467Z	info	Go runtime	{"log_id": "0O6i1M2G000", "version": "go1.13.8", "maxprocs": 8}
+2020-07-20T06:04:36.334759Z	info	Using data dir	{"log_id": "0O6i1M2G000", "service": "store", "path": "/mnt/influxdb/data"}
+
+```
+
+
+### 配置以服务启动
 
 ## 启动
 
 ```shell
 sudo service influxdb start
 ```
+
+问题：rpm  以root方式安装, 并自定义data目录，遇到的无法启动的问题
+
+问题原因： 
+默认influxdb 数据目录是 /var/lib/influxdb, 属于用户influxdb:influxdb
+
+自定义的data目录 /mnt/influxdb ，属于root，权限问题
+
+解决办法：
+删除 /mnt/influxdb， 移动目录
+
+```
+mv /var/lib/influxdb/ /mnt/influxdb/
+```
+
+修改/etc/influxdb/influxdb.conf
+```
+[meta]
+  # Where the metadata/raft database is stored
+  dir = "/mnt/influxdb/meta"
+[data]
+  # The directory where the TSM storage engine stores TSM files.
+  dir = "/mnt/influxdb/data"
+
+  # The directory where the TSM storage engine stores WAL files.
+  wal-dir = "/mnt/influxdb/wal"
+
+```
+
+```
+#service influxdb start
+##influx
+Connected to http://localhost:8086 version 1.8.1
+InfluxDB shell version: 1.8.1
+> 
+```
+启动成功
+
+
+## 启动授权
+
+```
+# influx
+Connected to http://localhost:8086 version 1.8.1
+InfluxDB shell version: 1.8.1
+> CREATE USER admin WITH PASSWORD '123456' WITH ALL PRIVILEGES    #创建管理员用户，赋予所有权限
+> CREATE USER user1 WITH PASSWORD '123456'   #创建普通用户
+> GRANT WRITE ON <database> TO user1   #赋予普通用户写权限
+> GRANT READ ON <database> TO user1 #赋予普通用户读权限
+
+
+```
+
+
+
+
+
 
 问题：启动失败
 
@@ -30,7 +152,8 @@ Point由时间戳（time）：time 主键
 
 
 ```shell
-sudo service influxdb start
+sudo service influxdb start    #启动
+
 ```
 
 访问测试：

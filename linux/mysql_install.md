@@ -43,6 +43,9 @@ https://www.cnblogs.com/xiongnanbin/p/11834979.html
 # groupadd mysql
 # useradd -r -s /sbin/nologin -g mysql mysql -d /usr/local/mysql/
 ```
+
+useradd -g admin admin -d /home/admin
+# chown -R admin:admin /home/admin/external/
 用户组mysql，用户mysql
 
 useradd -r参数表示mysql用户是系统用户，不可用于登录系统
