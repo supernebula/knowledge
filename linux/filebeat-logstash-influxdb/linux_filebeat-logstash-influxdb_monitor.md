@@ -319,6 +319,16 @@ grok表达式
 }
 ```
 
+## 参考文章
+
+logstash中grok使用if判断消息是否包含某个字符串
+
+http://p1htmlkernalweb.mybluemix.net/articles/logstash%E4%B8%ADgrok%E4%BD%BF%E7%94%A8if%E5%88%A4%E6%96%AD%E6%B6%88%E6%81%AF%E6%98%AF%E5%90%A6%E5%8C%85%E5%90%AB%E6%9F%90%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2_1637870_csdn.html
+
+Grok 正则捕获
+
+https://doc.yonyoucloud.com/doc/logstash-best-practice-cn/filter/grok.html
+
 
 
 
