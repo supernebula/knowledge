@@ -52,7 +52,7 @@ DataGrip
 
 https://www.jetbrains.com/datagrip/
 
-## 使用
+## 使用一： 基本使用
 
 ### ClickHouse Tutorial 使用指南
 
@@ -108,6 +108,8 @@ https://anjia0532.github.io/2019/06/10/cdh-streamsets/
 
 
 
+1. 建立外表：mysql引擎，数据表实际存储在外部mysql中
+
 ```SQL
 CREATE TABLE orders_myql
 (
@@ -155,6 +157,7 @@ CREATE TABLE orders_myql
 ```
 
 
+2. 建立表 ： 无索引
 
 ```sql
 CREATE TABLE orders
@@ -206,11 +209,73 @@ SAMPLE BY intHash32(id)
 SETTINGS index_granularity= 8192 ;
 ```
 
+
+3. 从MySQL外表查询 并 插入数据到clickhouse中
+
 ```sql
 INSERT INTO orders select * from mysql('192.168.0.2:3306', 'example_history_data', 'orders', 'user1', '******') WHERE id >= 1975989 AND id <  2975989
 
 ```
 
+4. clickhouse 条件查询
+
 ```sql
 SELECT COUNT(*) FROM orders WHERE parent_order_id = 0  AND create_time > toDate('2020-05-25') AND create_time < toDate('2020-07-25')
 ```
+
+
+## 使用二： 生产使用
+
+
+2. 建立表 ： 排序 索引
+
+```sql
+CREATE TABLE orders_history
+(
+  id Int32,
+  tenant_id Int32,
+  site_id Int32,
+  device_id Int32,
+  order_no String,
+  user_name Nullable(String),
+  user_id Nullable(Int32),
+  pay_type Int32,
+  device_number String,
+  device_ways Int32,
+  order_type Int32,
+  charging_prepaid_money Nullable(Int32),
+  charging_estimate_amount Nullable(Int32),
+  device_billing_type Int32,
+  device_billing_price Nullable(String),
+  charging_actual_money Nullable(Int32),
+  refund_money Int32,
+  refund_time Nullable(DateTime),
+  charging_actual_amount Nullable(Int32),
+  end_time Nullable(DateTime),
+  parent_order_id Int32,
+  device_type Int32,
+  phone_model_type Nullable(Int32),
+  pay_source_type Nullable(Int32),
+  device_take_out Int32,
+  is_order_cancel Int32,
+  device_refund_time Int32,
+  status Int32,
+  online_card_number Nullable(String),
+  province Nullable(String),
+  city Nullable(String),
+  area Nullable(String),
+  err_type Int32,
+  reduce_money Nullable(Int32),
+  reduce_type Nullable(Int32),
+  reduce_id Nullable(Int32),
+  charge_code Nullable(String),
+  create_time DateTime,
+  update_time Nullable(DateTime),
+  remark Nullable(String)
+) ENGINE = MergeTree()
+PARTITION BY toYYYYMM(create_time)
+ORDER BY (id, create_time)
+SETTINGS index_granularity= 8192;
+```
+
+
