@@ -2,7 +2,7 @@
 
 ## CentOS or RedHat 安装
 
-### 安装 
+### 在线安装 
 
 ```
 sudo yum install yum-utils
@@ -22,9 +22,65 @@ DONE
 
 ```
 
+### 手动安装
+
+在线安装很慢，先下载rpm包
+
+https://my.oschina.net/u/4312036/blog/3222611
+
+
+
 ### 卸载
 
 https://blog.csdn.net/daletxt/article/details/104524177/
+
+下载地址：
+
+https://repo.yandex.ru/clickhouse/rpm/stable/x86_64/
+
+clickhouse-client-20.5.4.40-2.noarch.rpm
+clickhouse-server-20.5.4.40-2.noarch.rpm
+clickhouse-common-static-20.5.4.40-2.x86_64.rpm
+
+```shell
+cd /root/download/clickhose
+[root@clickhouse]# ll
+total 119300
+-rw-r--r-- 1 root root     76151 Aug  5 13:02 clickhouse-client-20.5.4.40-2.noarch.rpm
+-rw-r--r-- 1 root root 121976643 Aug  5 13:03 clickhouse-common-static-20.5.4.40-2.x86_64.rpm
+-rw-r--r-- 1 root root     98616 Aug  5 13:02 clickhouse-server-20.5.4.40-2.noarch.rpm
+
+# rpm -ivh clickhouse-common-static-20.5.4.40-2.x86_64.rpm 
+Preparing...                          ################################# [100%]
+Updating / installing...
+   1:clickhouse-common-static-20.5.4.4################################# [100%]
+# rpm -ivh clickhouse-client-20.5.4.40-2.noarch.rpm 
+Preparing...                          ################################# [100%]
+Updating / installing...
+   1:clickhouse-client-20.5.4.40-2    ################################# [100%]
+   # rpm -ivh clickhouse-server-20.5.4.40-2.noarch.rpm 
+Preparing...                          ################################# [100%]
+Updating / installing...
+   1:clickhouse-server-20.5.4.40-2    ################################# [100%]
+Path to data directory in /etc/clickhouse-server/config.xml: /var/lib/clickhouse/
+
+
+# cp -r /var/lib/clickhouse/ /mnt/clickhouse/
+# chown -R clickhouse:clickhouse /mnt/clickhouse/
+
+```
+
+#### 修改数据目录到指定/mnt/clickhouse/
+
+```shell
+#vim /etc/clickhouse-server/config.xml
+
+    <!-- Path to data directory, with trailing slash. -->
+    <path>/mnt/clickhouse/</path>
+
+    <!-- Path to temporary data for processing hard queries. -->
+    <tmp_path>/mnt/clickhouse/tmp/</tmp_path>
+```
 
 
 
@@ -41,6 +97,9 @@ DBeaver 客户端连接 clickhouse Connection refused: connect
  vim config.xml
 
 <!--<listen_host>::</listen_host>-->  #把注释掉的<listen_host>::</listen_host>取消注释，然后重启服务：
+
+如果无法启动，改成如下：
+<listen_host>0.0.0.0</listen_host>
 
 service clickhouse-server restart 
 ```
