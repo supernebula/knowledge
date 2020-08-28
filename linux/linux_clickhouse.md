@@ -12,6 +12,7 @@ sudo yum install clickhouse-server clickhouse-client
 
 sudo /etc/init.d/clickhouse-server start
 clickhouse-client
+clickhouse-client -u default --password 123456
 ```
 
 启动

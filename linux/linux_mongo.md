@@ -115,3 +115,19 @@ db.dropUser("root")
 mongo --host <host:port> -u <username> -p --authenticationDatabase <database>
 
 mongo --host 127.0.0.1:27017 -u admin -p --authenticationDatabase db1
+
+
+## mongodb数据导出、导入
+
+### mongodump导出 
+
+```shell
+mongodump -h 127.0.0.1:27017  -u root -p youpassword1 --authenticationDatabase=admin -d=db1 --collection table1 -o D:\data\dump_db1
+```
+
+
+### mongorestore还原指定数据库
+
+```shell
+mongorestore -h 192.168.0.2:27017 -u root -p youpassword2 --authenticationDatabase=admin -d=db@ D:\data\dump_db1\db1
+```
