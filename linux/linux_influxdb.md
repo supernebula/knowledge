@@ -226,4 +226,37 @@ Sending Logstash logs to /usr/local/logstash-6.8.6/logs which is now configured 
 
 ```
 
+## 命令行管理influxdb
+
+https://www.jianshu.com/p/721e4ce4c066
+
+### 登录 influxdb
+
+```shell
+# influx
+# influx -username 'name1' -password 'pwd1'
+
+Connected to http://localhost:8086 version 1.8.1
+InfluxDB shell version: 1.8.1
+> show databases
+```
+
+### 保存策略
+
+#### 创建保存策略
+
+```shell
+create retention policy "rp_one_week" on "db_charge" duration 1w replication 1 default
+```
+
+#### 查看保存策略
+
+```shell
+> show retention policies on db_charge
+name    duration shardGroupDuration replicaN default
+----    -------- ------------------ -------- -------
+autogen 0s       168h0m0s           1        true
+
+```
+
 
