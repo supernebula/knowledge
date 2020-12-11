@@ -246,7 +246,7 @@ InfluxDB shell version: 1.8.1
 #### 创建保存策略
 
 ```shell
-create retention policy "rp_one_week" on "db_charge" duration 1w replication 1 default
+create retention policy "rp_one_week" on "database1" duration 1w replication 1 default
 ```
 
 #### 查看保存策略
@@ -257,6 +257,12 @@ name    duration shardGroupDuration replicaN default
 ----    -------- ------------------ -------- -------
 autogen 0s       168h0m0s           1        true
 
+```
+
+#### 修改保存策略
+
+```shell
+alter retention policy "autogen" on "database1" duration 4w default
 ```
 
 
