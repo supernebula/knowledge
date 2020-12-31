@@ -1,4 +1,4 @@
-安装nginx
+# 安装nginx
 
 https://blog.csdn.net/u011630575/article/details/48103243
 
@@ -113,4 +113,79 @@ export PATH=$PATH:$NGINX_HOME/sbin
 the "ssl" parameter requires ngx_http_ssl_module
 
 
+## nginx常用命令
+
+
+1. 启动
+
+```shell
+cd usr/local/nginx/sbin
+./nginx
+```
+
+2. 重启
+
+更改配置重启nginx
+
+kill -HUP 主进程号或进程号文件路径
+
+或者使用
+```shell
+cd /usr/local/nginx/sbin
+./nginx -s reload
+```
+
+判断配置文件是否正确
+```shell
+nginx -t -c /usr/local/nginx/conf/nginx.conf
+```
+
+或者
+```shell
+cd  /usr/local/nginx/sbin
+./nginx -t
+```
+
+3. 关闭
+
+查询nginx主进程号
+```shell
+ps -ef | grep nginx
+```
+
+从容停止   kill -QUIT 主进程号
+
+快速停止   kill -TERM 主进程号
+
+强制停止   kill -9 nginx
+
+若nginx.conf配置了pid文件路径，如果没有，则在logs目录下
+
+kill -信号类型 '/usr/local/nginx/logs/nginx.pid'2. 
+
+4. 参考
+
+centos下nginx启动、重启、关闭
+
+https://developer.aliyun.com/article/603862
+
+CentOS 6.x 和 CentOS 7.x 中 Nginx 的操作命令（启动/重启/退出/...）
+
+https://blog.csdn.net/iw1210/article/details/103855142
+
+
+
+
+
+##  安装 nginx 模块
+
+http://www.ttlsa.com/nginx/how-to-install-nginx-third-modules/
+
+```shell
+./configure --prefix=/你的安装目录  --add-module=/第三方模块目录
+```
+
+```shell
+./configure --prefix=/usr/local/nginx --add-module=/usr/local/nginx-1.12.2/module/ngx_http_limit_req_module
+```
 

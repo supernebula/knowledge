@@ -437,3 +437,7 @@ Starting MySQL.. ERROR! The server quit without updating PID file (/var/run/mari
 # tar 解压排除
 
 tar -izxvf hins8170601_data_20200423041705.tar.gz -C /opt/mysql/data --exclude=dbname1
+
+
+# Docker 安装 mysql
+
