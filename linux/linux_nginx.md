@@ -129,7 +129,7 @@ cd usr/local/nginx/sbin
 
 kill -HUP 主进程号或进程号文件路径
 
-或者使用
+或者使用（验证和重新加载配置）
 ```shell
 cd /usr/local/nginx/sbin
 ./nginx -s reload
@@ -188,4 +188,8 @@ http://www.ttlsa.com/nginx/how-to-install-nginx-third-modules/
 ```shell
 ./configure --prefix=/usr/local/nginx --add-module=/usr/local/nginx-1.12.2/module/ngx_http_limit_req_module
 ```
+
+## Nginx解决跨域问题
+
+https://segmentfault.com/a/1190000012550346
 
