@@ -1,5 +1,20 @@
 # Clickhouse 
 
+## Clickhouse 优化方法和参考
+
+1. ClickHouse Better Practices
+
+https://www.jianshu.com/p/363d734bdc03
+
+3. ClickHouse分布式IN & JOIN 查询的避坑指南
+
+https://blog.csdn.net/qq_23160237/article/details/105683601
+
+
+https://z.itpub.net/article/detail/7486371E68AF3E686A20BE30859E27EA
+
+为什么ClickHouse分析数据库这么强？（原理剖析+应用实践）
+
 ## CentOS or RedHat 安装
 
 ### 在线安装 
